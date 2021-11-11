@@ -39,15 +39,44 @@ Airplane.prototype.land = function () {
         + It should return a string with `name` and `age`. Example: "Mary, 50"
 */
 
-function Person() {
-  
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+  this.stomach = [];
 }
 
+Person.prototype.eat = function(edible){
+  if(this.stomach.length < 10){
+    this.stomach.push(edible);
+  }
+}
 
+Person.prototype.poop = function(){
+  this.stomach = [];
+}
 
+Person.prototype.toString = function(){
+  return `${this.name}, ${this.age}`;
+}
 
+const kyler = new Person('Kyler', 25);
+const ben = new Person('Bennett', 20);
 
+console.log(kyler.toString());
+console.log(ben.toString());
 
+ben.eat('pizza');
+ben.eat('tacos');
+ben.eat('sushi');
+ben.eat('ramen noodles');
+ben.eat('sandwich');
+ben.eat('cake');
+
+console.log(ben.stomach);
+
+ben.poop();
+
+console.log(ben.stomach);
 
 /*
   TASK 2
@@ -63,11 +92,22 @@ function Person() {
         + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
 */
 
-function Car() {
-  
+function Car(model, milesPerGallon) {
+  this.model = model;
+  this.milesPerGallon = milesPerGallon;
+  this.tank = 0;
+  this.odometer = 0;
 }
 
+Car.prototype.fill = function(gallons){
+  this.tank = this.tank + gallons;
+}
 
+const toyota = new Car('Toyota Supra', 13)
+
+toyota.fill(12);
+
+console.log('task2', toyota.tank)
 /*
   TASK 3
     - Write a Baby constructor subclassing Person.
@@ -75,10 +115,18 @@ function Car() {
     - Besides the methods on Person.prototype, babies have the ability to `.play()`:
         + Should return a string "Playing with x", x being the favorite toy.
 */
-function Baby() {
- 
+function Baby(name, age, favoriteToy) {
+ Person.call(this, name, age);
+ this.favoriteToy = favoriteToy;
 }
 
+Baby.prototype = Object.create(Person.prototype);
+Baby.prototype.play = function(){
+  return `Playing with ${this.favoriteToy}`;
+}
+
+const nissan = new Baby('Nissan', 84 , 'cars');
+console.log('task3', nissan.play());
 
 /* 
   TASK 4
